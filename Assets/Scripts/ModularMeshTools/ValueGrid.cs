@@ -1,104 +1,125 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Demo {
-	/// <summary>
-	/// This is the component that holds the grid data, used by the MarchingSquares component.
-	/// It is also responsible for mapping world positions to grid cell positions.
-	/// Other scripts can call SetCell to modify the grid, before running the MarchingSquares algorithm.
-	/// 
-	/// You can try out different ways to initialize the grid here, in the InitializeGrid method.
-	/// </summary>
-	public class ValueGrid : MonoBehaviour {
-		public int Width {
-			get {
-				return width;
-			}
-		}
-		public int Depth {
-			get {
-				return depth;
-			}
-		}
-		[SerializeField]
-		int width = 10;
-		[SerializeField]
-		int depth = 10;
+namespace Demo
+{
+    /// <summary>
+    /// This is the component that holds the grid data, used by the MarchingSquares component.
+    /// It is also responsible for mapping world positions to grid cell positions.
+    /// Other scripts can call SetCell to modify the grid, before running the MarchingSquares algorithm.
+    /// 
+    /// You can try out different ways to initialize the grid here, in the InitializeGrid method.
+    /// </summary>
+    public class ValueGrid : MonoBehaviour
+    {
+        public int Width => width;
 
-		public float cellSize = 1;
-			   
-		float[,] grid = null;
+        public int Depth => depth;
 
-		private void Update() {
-			if (Input.GetKeyDown(KeyCode.G)) {
-				InitializeGrid();
-				Debug.Log("ValueGrid: newly initialized. Press the BuildTrigger key to regenerate game objects");
-			}
-		}
+        [SerializeField] private int width = 10;
+        [SerializeField] private int depth = 10;
 
-		void InitializeGrid() {
-			grid=new float[width, depth];
+        public float cellSize = 1;
 
-			// TODO: try out some interesting ways to initialize the grid here:
-			float xOffset = Random.value;
-			float yOffset = Random.value;
-			for (int i = 0; i<width; i++) {
-				for (int j = 0; j<depth; j++) {
-					// Initialize empty:
-					//grid[i, j]=0; 
+        private float[,] grid = null;
 
-					// Perlin noise with random offset:
-					grid[i, j] = Mathf.Round(Mathf.PerlinNoise(i*0.1f + xOffset, j*0.1f + yOffset));
-				}
-			}
-		}
+        private void Update()
+        {
+            if (!Input.GetKeyDown(KeyCode.G)) return;
+            InitializeGrid();
+            Debug.Log("ValueGrid: newly initialized. Press the BuildTrigger key to regenerate game objects");
+        }
 
-		public bool GetRowCol(Vector3 worldPosition, out int row, out int col) {
-			Vector3 localHit = transform.InverseTransformPoint(worldPosition);
+        private void InitializeGrid()
+        {
+            grid = new float[width, depth];
 
-			row = (int)Mathf.Round(localHit.x/cellSize);
-			col = (int)Mathf.Round(localHit.z/cellSize);
-			return InRange(row, col);
-		}
+            // TODO: try out some interesting ways to initialize the grid here:
+            var xOffset = Random.value;
+            var yOffset = Random.value;
+            for (var i = 0; i < width; i++)
+            {
+                for (var j = 0; j < depth; j++)
+                {
+                    // Initialize empty:
+                    //grid[i, j]=0; 
 
-		public bool InRange(int row, int col) {
-			if (grid==null) {
-				InitializeGrid();
-			}
-			return row>=0 && row<grid.GetLength(0) && col>=0 && col<grid.GetLength(1);
-		}
+                    // Perlin noise with random offset:
+                    grid[i, j] = Mathf.Round(Mathf.PerlinNoise(i * 0.1f + xOffset, j * 0.1f + yOffset));
 
-		public void SetCell(int row, int col, float value) {
-			if (grid==null) {
-				InitializeGrid();
-			}
-			if (InRange(row,col)) {
-				grid[row, col]=value;
-			}
-		}
+                    //Rows of roads
+                    //var c=0;
+                    //if (j % 2 == 0)
+                    //{
+                    //    c = 1;
+                    //}
+                    //grid[i, j] = c;
+                }
+            }
+        }
 
-		public float GetCell(int row, int col) {
-			if (grid==null) {
-				InitializeGrid();
-			}
-			if (InRange(row,col)) {
-				return grid[row, col];
-			}
-			return 0;
-		}
+        private bool GetRowCol(Vector3 worldPosition, out int row, out int col)
+        {
+            var localHit = transform.InverseTransformPoint(worldPosition);
 
-		public void SetCell(Vector3 worldPosition, float value) {
-			if (GetRowCol(worldPosition, out int row, out int col)) {
-				SetCell(row, col,value);
-			}
-		}
+            row = (int) Mathf.Round(localHit.x / cellSize);
+            col = (int) Mathf.Round(localHit.z / cellSize);
+            return InRange(row, col);
+        }
 
-		public float GetCell(Vector3 worldPosition, float value) {
-			if (GetRowCol(worldPosition, out int row, out int col)) {
-				return GetCell(row, col);
-			}
-			return 0;
-		}
-	}
+        private bool InRange(int row, int col)
+        {
+            if (grid == null)
+            {
+                InitializeGrid();
+            }
+
+            return row >= 0 && row < grid.GetLength(0) && col >= 0 && col < grid.GetLength(1);
+        }
+
+        private void SetCell(int row, int col, float value)
+        {
+            if (grid == null)
+            {
+                InitializeGrid();
+            }
+
+            if (InRange(row, col))
+            {
+                grid[row, col] = value;
+            }
+        }
+
+        public float GetCell(int row, int col)
+        {
+            if (grid == null)
+            {
+                InitializeGrid();
+            }
+
+            if (InRange(row, col))
+            {
+                return grid[row, col];
+            }
+
+            return 0;
+        }
+
+        public void SetCell(Vector3 worldPosition, float value)
+        {
+            if (GetRowCol(worldPosition, out int row, out int col))
+            {
+                SetCell(row, col, value);
+            }
+        }
+
+        public float GetCell(Vector3 worldPosition, float value)
+        {
+            if (GetRowCol(worldPosition, out int row, out int col))
+            {
+                return GetCell(row, col);
+            }
+
+            return 0;
+        }
+    }
 }
