@@ -308,10 +308,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1528055769}
-  - component: {fileID: 1528055768}
   - component: {fileID: 1528055770}
+  - component: {fileID: 1528055768}
+  - component: {fileID: 1528055771}
   m_Layer: 0
-  m_Name: SceneManager
+  m_Name: Building
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -326,17 +327,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1528055767}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 253f8ca03e74dd44295c4dbcef9d523a, type: 3}
+  m_Script: {fileID: 11500000, guid: 5eca6e167216ba44dbb1156c6fb9535a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingHeight: -1
-  stockHeight: 1
-  maxHeight: 5
-  minHeight: 1
-  stockPrefabs:
+  Width: 5
+  Depth: 5
+  wallStyle:
   - {fileID: 919132149155446097, guid: bb4c63d21c60b49449f13655f20e9e2f, type: 3}
-  roofPrefabs:
+  - {fileID: 919132149155446097, guid: 8fb96333c22601246a4dcee4b35c1f53, type: 3}
+  - {fileID: 919132149155446097, guid: 158be33ef4650da469497e176a0ff03f, type: 3}
+  - {fileID: 919132149155446097, guid: e5bfd3e4dbd098b468e927cb7653b2fa, type: 3}
+  roofStyle:
+  - {fileID: 919132149155446097, guid: feb62f7ddaa23424fa749c17e5c0ba1a, type: 3}
+  - {fileID: 919132149155446097, guid: 6a33e0d1bbd8de740a69f08108c2d66e, type: 3}
   - {fileID: 919132149155446097, guid: 652ce6ee02615104bbd096fe34532f25, type: 3}
+  - {fileID: 919132149155446097, guid: ae5adf3d606302242b28c1e386b947f6, type: 3}
 --- !u!4 &1528055769
 Transform:
   m_ObjectHideFlags: 0
@@ -365,3 +370,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BuildKey: 32
   BuildOnStart: 1
+--- !u!114 &1528055771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528055767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f69787c3e8e54b340806d251b3f5033b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seed: 0
