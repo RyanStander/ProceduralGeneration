@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Demo {
+namespace ModularMeshes {
     public class BuildTrigger : MonoBehaviour {
         public KeyCode BuildKey = KeyCode.Space;
         public bool BuildOnStart = false;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Demo {
+namespace ModularMeshes {
 	public class SimpleRoof : Shape {
 		// grammar rule probabilities:
 		const float roofContinueChance = 0.5f;
@@ -75,8 +75,8 @@ namespace Demo {
 				nextRoof.Initialize(newWidth, newDepth, roofStyle, wallStyle);
 				nextRoof.Generate(buildDelay);
 			} else { // continue with a stock
-				SimpleStock nextStock = CreateSymbol<SimpleStock>("stock");
-				nextStock.Initialize(newWidth, newDepth, wallStyle, roofStyle);
+				HouseGenerator nextStock = CreateSymbol<HouseGenerator>("stock");
+				//nextStock.Initialize(newWidth, newDepth, wallStyle, roofStyle);
 				nextStock.Generate(buildDelay);
 			}
 		}

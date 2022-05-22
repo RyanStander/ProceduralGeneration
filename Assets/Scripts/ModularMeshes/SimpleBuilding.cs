@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Demo {
+namespace ModularMeshes {
 	public class SimpleBuilding : Shape {
 		public int buildingHeight=-1; // The total building height (=#stocks) - value should be the same for all stocks
 		public float stockHeight=1; // The height of one stock. Change this value depending on the height of your stock prefabs

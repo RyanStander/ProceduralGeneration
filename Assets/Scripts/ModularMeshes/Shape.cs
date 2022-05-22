@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Demo {
+namespace ModularMeshes {
 	/// <summary>
 	/// This is a superclass that you can use for any custom grammar.
 	/// Note: To create grammars, it's not necessary to understand the implementation details here,
@@ -56,12 +56,12 @@ namespace Demo {
 			if (parent==null) {
 				parent=transform; // default: add as child game object
 			}
-			GameObject newObj = new GameObject(name);
+			var newObj = new GameObject(name);
 			newObj.transform.parent=parent;
 			newObj.transform.localPosition=localPosition;
 			newObj.transform.localRotation=localRotation;
 			AddGenerated(newObj);
-			T component = newObj.AddComponent<T>();
+			var component = newObj.AddComponent<T>();
 			component.root = Root;
 			return component;
 		}
@@ -79,7 +79,7 @@ namespace Demo {
 			if (parent==null) {
 				parent=transform; // default: add as child game object
 			}
-			GameObject copy = Instantiate(prefab, parent);
+			var copy = Instantiate(prefab, parent);
 			copy.transform.localPosition=localPosition;
 			copy.transform.localRotation=localRotation;
 			AddGenerated(copy);
@@ -145,7 +145,7 @@ namespace Demo {
 			if (delaySeconds==0 || !Application.isPlaying) {
 				Execute();
 			} else {
-				StartCoroutine(DelayedExecute(delaySeconds));
+				Execute();
 			}
 		}
 

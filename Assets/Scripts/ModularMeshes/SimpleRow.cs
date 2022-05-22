@@ -1,31 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Demo {
+namespace ModularMeshes {
     public class SimpleRow : Shape {
-        int Number;
-        GameObject[] prefabs=null;
-        Vector3 direction;
+        private int number;
+        private GameObject[] prefabs;
+        private Vector3 direction;
 
-        public void Initialize(int Number, GameObject[] prefabs, Vector3 dir=new Vector3()) {
-            this.Number=Number;
+        public void Initialize(int number, GameObject[] prefabs, Vector3 dir=new Vector3()) {
+            this.number=number;
             this.prefabs=prefabs;
-            if (dir.magnitude!=0) {
-                direction=dir;
-            } else {
-                direction=new Vector3(0, 0, 1);
-            }
+            direction = dir.magnitude!=0 ? dir : new Vector3(0, 0, 1);
         }
 
         protected override void Execute() {
-            if (Number<=0)
+
+            if (number<=0)
                 return;
-            for (int i=0;i<Number;i++) {	// spawn the prefabs, randomly chosen
-                int index = RandomInt(prefabs.Length); // choose a random prefab index
-				
+            for (var i=0;i<number;i++) {	// spawn the prefabs, randomly chosen
+                var index = RandomInt(prefabs.Length); // choose a random prefab index
                 SpawnPrefab(prefabs[index],
-                    direction * (i - (Number-1)/2f), // position offset from center
+                    direction * (i - (number-1)/2f), // position offset from center
                     Quaternion.identity			// no rotation
                 );
             }
