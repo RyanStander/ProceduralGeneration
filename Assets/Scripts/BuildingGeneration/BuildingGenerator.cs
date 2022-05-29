@@ -11,32 +11,48 @@ namespace BuildingGeneration
 
         [Header("First Floor")] [SerializeField]
         private List<GameObject> foundationWalls;
+
         [SerializeField] private List<GameObject> stairs;
         [SerializeField] private List<GameObject> pillars;
 
         [Header("Second Floor")] [SerializeField]
         private List<GameObject> buildingWalls;
+
         [SerializeField] private List<GameObject> floorCornerFences;
         [SerializeField] private List<GameObject> floorSideFences;
         [SerializeField] private List<GameObject> floorSidePillars;
 
         [Header("Third Floor")] [SerializeField]
         private List<GameObject> gableRoofs;
+
         [SerializeField] private List<GameObject> innerCornerRoof;
         [SerializeField] private List<GameObject> outerCornerRoofs;
         [SerializeField] private List<GameObject> sideRoofs;
+
+        [Header("Building Values")] [SerializeField]
+        private Vector3 offsetAmounts;
+
+        [SerializeField] private int wallWidth = 1;
+        [SerializeField] private int wallLength = 1;
+        [SerializeField] private int wallHeight = 1;
 
         #endregion
 
         #region Private Fields
 
-        
+        private float yOffset;
+        private float xOffset;
+        private float zOffset;
 
         #endregion
-        
+
         public void Generate()
         {
-            Instantiate(buildingWalls[0], transform);
+            ClearBuilding();
+            
+            xOffset = 0;
+            yOffset = 0;
+            zOffset = 0;
             //F1
             //Create starting foundation
             //Surround with pillars (can be front or surround)
@@ -45,6 +61,62 @@ namespace BuildingGeneration
             //F2
             //select a doorway (only 1)
             //add walls to foundation
+
+            Vector3 pos;
+            var transform1 = transform;
+            var position = transform1.position;
+            GameObject tempGameObject;
+
+            for (var b = 0; b < wallHeight; b++)
+            {
+                //1st wall
+                for (var i = 0; i < wallWidth; i++)
+                {
+                    pos = new Vector3(xOffset, yOffset, zOffset);
+                    Instantiate(buildingWalls[0], pos + position, Quaternion.identity, transform1);
+                    zOffset += offsetAmounts.z;
+                }
+
+                zOffset -= offsetAmounts.z;
+
+                //2nd wall
+
+                for (var i = 0; i < wallLength; i++)
+                {
+                    pos = new Vector3(xOffset, yOffset, zOffset);
+                    tempGameObject = Instantiate(buildingWalls[0], pos + position, Quaternion.identity, transform1);
+                    tempGameObject.transform.Rotate(0, 90, 0);
+                    xOffset += offsetAmounts.x;
+                }
+
+                xOffset -= offsetAmounts.x;
+
+                //3rd wall
+
+                for (var i = 0; i < wallWidth; i++)
+                {
+                    pos = new Vector3(xOffset, yOffset, zOffset);
+                    tempGameObject = Instantiate(buildingWalls[0], pos + position, Quaternion.identity, transform1);
+                    tempGameObject.transform.Rotate(0, 180, 0);
+                    zOffset -= offsetAmounts.z;
+                }
+
+                zOffset += offsetAmounts.z;
+
+                //4th wall
+
+                for (var i = 0; i < wallLength; i++)
+                {
+                    pos = new Vector3(xOffset, yOffset, zOffset);
+                    tempGameObject = Instantiate(buildingWalls[0], pos + position, Quaternion.identity, transform1);
+                    tempGameObject.transform.Rotate(0, 270, 0);
+                    xOffset -= offsetAmounts.x;
+                }
+
+                xOffset = 0;
+                zOffset = 0;
+                yOffset += offsetAmounts.y;
+            }
             //add wooden floor + pillars to exist in pillars
 
             //F3
