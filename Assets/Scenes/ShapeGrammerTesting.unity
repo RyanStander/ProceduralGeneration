@@ -5627,7 +5627,7 @@ MonoBehaviour:
   pillars:
   - {fileID: 529734392482304339, guid: 3e4342046091e0a4fb94a576980939e2, type: 3}
   buildingWalls:
-  - {fileID: 9184305008393950958, guid: 49e6095afb583814fa45865a9ba508c1, type: 3}
+  - {fileID: 972174451751972006, guid: 4ce0d0df4fd0c79469373200cad631d1, type: 3}
   floorCornerFences:
   - {fileID: 3831956392084303868, guid: cd44862be1a0e494ebcfd4788b4ad0d5, type: 3}
   floorSideFences:
@@ -5645,7 +5645,7 @@ MonoBehaviour:
   offsetAmounts: {x: 1, y: 1, z: 1}
   wallWidth: 5
   wallLength: 5
-  wallHeight: 2
+  wallHeight: 6
 --- !u!4 &1528055769
 Transform:
   m_ObjectHideFlags: 0

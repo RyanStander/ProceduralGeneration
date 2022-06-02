@@ -49,74 +49,31 @@ namespace BuildingGeneration
         public void Generate()
         {
             ClearBuilding();
-            
+
             xOffset = 0;
             yOffset = 0;
             zOffset = 0;
+            
             //F1
             //Create starting foundation
+            CreateWalls(foundationWalls);
+            
             //Surround with pillars (can be front or surround)
             //add access point stairs (can be multiple)
 
             //F2
             //select a doorway (only 1)
+            
             //add walls to foundation
-
-            Vector3 pos;
-            var transform1 = transform;
-            var position = transform1.position;
-            GameObject tempGameObject;
+            #region wall creation
 
             for (var b = 0; b < wallHeight; b++)
             {
-                //1st wall
-                for (var i = 0; i < wallWidth; i++)
-                {
-                    pos = new Vector3(xOffset, yOffset, zOffset);
-                    Instantiate(buildingWalls[0], pos + position, Quaternion.identity, transform1);
-                    zOffset += offsetAmounts.z;
-                }
-
-                zOffset -= offsetAmounts.z;
-
-                //2nd wall
-
-                for (var i = 0; i < wallLength; i++)
-                {
-                    pos = new Vector3(xOffset, yOffset, zOffset);
-                    tempGameObject = Instantiate(buildingWalls[0], pos + position, Quaternion.identity, transform1);
-                    tempGameObject.transform.Rotate(0, 90, 0);
-                    xOffset += offsetAmounts.x;
-                }
-
-                xOffset -= offsetAmounts.x;
-
-                //3rd wall
-
-                for (var i = 0; i < wallWidth; i++)
-                {
-                    pos = new Vector3(xOffset, yOffset, zOffset);
-                    tempGameObject = Instantiate(buildingWalls[0], pos + position, Quaternion.identity, transform1);
-                    tempGameObject.transform.Rotate(0, 180, 0);
-                    zOffset -= offsetAmounts.z;
-                }
-
-                zOffset += offsetAmounts.z;
-
-                //4th wall
-
-                for (var i = 0; i < wallLength; i++)
-                {
-                    pos = new Vector3(xOffset, yOffset, zOffset);
-                    tempGameObject = Instantiate(buildingWalls[0], pos + position, Quaternion.identity, transform1);
-                    tempGameObject.transform.Rotate(0, 270, 0);
-                    xOffset -= offsetAmounts.x;
-                }
-
-                xOffset = 0;
-                zOffset = 0;
-                yOffset += offsetAmounts.y;
+                CreateWalls(buildingWalls);
             }
+
+            #endregion
+
             //add wooden floor + pillars to exist in pillars
 
             //F3
@@ -131,6 +88,62 @@ namespace BuildingGeneration
             {
                 DestroyImmediate(child.gameObject);
             }
+        }
+
+        private void CreateWalls(IReadOnlyList<GameObject> walls)
+        {
+            Vector3 pos;
+            var transform1 = transform;
+            var position = transform1.position;
+            GameObject tempGameObject;
+            
+            //1st wall
+            for (var i = 0; i < wallWidth; i++)
+            {
+                pos = new Vector3(xOffset, yOffset, zOffset);
+                Instantiate(walls[0], pos + position, Quaternion.identity, transform1);
+                zOffset += offsetAmounts.z;
+            }
+
+            zOffset -= offsetAmounts.z;
+
+            //2nd wall
+
+            for (var i = 0; i < wallLength; i++)
+            {
+                pos = new Vector3(xOffset, yOffset, zOffset);
+                tempGameObject = Instantiate(walls[0], pos + position, Quaternion.identity, transform1);
+                tempGameObject.transform.Rotate(0, 90, 0);
+                xOffset += offsetAmounts.x;
+            }
+
+            xOffset -= offsetAmounts.x;
+
+            //3rd wall
+
+            for (var i = 0; i < wallWidth; i++)
+            {
+                pos = new Vector3(xOffset, yOffset, zOffset);
+                tempGameObject = Instantiate(walls[0], pos + position, Quaternion.identity, transform1);
+                tempGameObject.transform.Rotate(0, 180, 0);
+                zOffset -= offsetAmounts.z;
+            }
+
+            zOffset += offsetAmounts.z;
+
+            //4th wall
+
+            for (var i = 0; i < wallLength; i++)
+            {
+                pos = new Vector3(xOffset, yOffset, zOffset);
+                tempGameObject = Instantiate(walls[0], pos + position, Quaternion.identity, transform1);
+                tempGameObject.transform.Rotate(0, 270, 0);
+                xOffset -= offsetAmounts.x;
+            }
+
+            xOffset = 0;
+            zOffset = 0;
+            yOffset += offsetAmounts.y;
         }
     }
 }
