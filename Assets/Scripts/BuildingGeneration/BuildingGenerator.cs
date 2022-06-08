@@ -74,10 +74,11 @@ namespace BuildingGeneration
 
             #endregion
 
-            //add wooden floor + pillars to exist in pillars
+            //add wooden floor + pillars to existing in pillars
 
             //F3
             //Add roof
+            CreateRoofs();
         }
 
         public void ClearBuilding()
@@ -144,6 +145,26 @@ namespace BuildingGeneration
             xOffset = 0;
             zOffset = 0;
             yOffset += offsetAmounts.y;
+        }
+
+        private void CreateRoofs()
+        {
+            Vector3 pos;
+            var transform1 = transform;
+            var position = transform1.position;
+            GameObject tempGameObject;
+            for (var i = 0; i < wallWidth; i++)
+            {
+                for (var j = 0; j < wallLength; j++)
+                {
+                    pos=new Vector3(xOffset,yOffset,zOffset);
+                    tempGameObject = Instantiate(gableRoofs[0], pos + position, Quaternion.identity, transform1);
+                    xOffset += offsetAmounts.x;
+                }
+
+                xOffset = 0;
+                zOffset += offsetAmounts.z;
+            }
         }
     }
 }
