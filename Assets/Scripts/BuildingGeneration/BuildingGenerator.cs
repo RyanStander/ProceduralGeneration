@@ -53,18 +53,19 @@ namespace BuildingGeneration
             xOffset = 0;
             yOffset = 0;
             zOffset = 0;
-            
+
             //F1
             //Create starting foundation
             CreateWalls(foundationWalls);
-            
+
             //Surround with pillars (can be front or surround)
             //add access point stairs (can be multiple)
 
             //F2
             //select a doorway (only 1)
-            
+
             //add walls to foundation
+
             #region wall creation
 
             for (var b = 0; b < wallHeight; b++)
@@ -97,7 +98,7 @@ namespace BuildingGeneration
             var transform1 = transform;
             var position = transform1.position;
             GameObject tempGameObject;
-            
+
             //1st wall
             for (var i = 0; i < wallWidth; i++)
             {
@@ -152,14 +153,35 @@ namespace BuildingGeneration
             Vector3 pos;
             var transform1 = transform;
             var position = transform1.position;
+            var rotAmount = 90;
             GameObject tempGameObject;
+            
             for (var i = 0; i < wallWidth; i++)
             {
                 for (var j = 0; j < wallLength; j++)
                 {
-                    pos=new Vector3(xOffset,yOffset,zOffset);
-                    tempGameObject = Instantiate(gableRoofs[0], pos + position, Quaternion.identity, transform1);
+                    pos = new Vector3(xOffset, yOffset, zOffset);
+                    tempGameObject = Instantiate(sideRoofs[0], pos + position, Quaternion.identity, transform1);
+                    tempGameObject.transform.Rotate(0, rotAmount, 0);
                     xOffset += offsetAmounts.x;
+                }
+                
+                //if uneven amount
+
+                //if at transition point
+                if (i==wallWidth/2-1)
+                {
+                    rotAmount = 270; 
+                }
+                //if go up
+                else if (i<wallWidth/2)
+                {
+                    yOffset += offsetAmounts.y;
+                }
+                //if go down
+                else
+                {
+                    yOffset -= offsetAmounts.y;
                 }
 
                 xOffset = 0;
