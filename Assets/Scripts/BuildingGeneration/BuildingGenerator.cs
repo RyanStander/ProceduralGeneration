@@ -153,38 +153,57 @@ namespace BuildingGeneration
             Vector3 pos;
             var transform1 = transform;
             var position = transform1.position;
-            var rotAmount = 90;
             GameObject tempGameObject;
-            
-            for (var i = 0; i < wallWidth; i++)
+
+            for (var i = 0; i < wallWidth / 2; i++)
             {
+                //create side roof
                 for (var j = 0; j < wallLength; j++)
                 {
                     pos = new Vector3(xOffset, yOffset, zOffset);
                     tempGameObject = Instantiate(sideRoofs[0], pos + position, Quaternion.identity, transform1);
-                    tempGameObject.transform.Rotate(0, rotAmount, 0);
+                    tempGameObject.transform.Rotate(0, 90, 0);
                     xOffset += offsetAmounts.x;
                 }
+                zOffset += offsetAmounts.z;
+                xOffset -= offsetAmounts.x;
                 
-                //if uneven amount
+                //create side wall
+                for (var j = 0; j < wallWidth; j++)
+                {
+                    if (j <= i || j >= wallWidth - i-1) continue;
+                    
+                    pos = new Vector3(xOffset, yOffset, zOffset);
+                    tempGameObject = Instantiate(buildingWalls[0], pos + position, Quaternion.identity, transform1);
+                    tempGameObject.transform.Rotate(0, 180, 0);
+                    zOffset += offsetAmounts.z;
+                }
+                
+                //create side roof
+                for (var j = 0; j < wallLength; j++)
+                {
+                    pos = new Vector3(xOffset, yOffset, zOffset);
+                    tempGameObject = Instantiate(sideRoofs[0], pos + position, Quaternion.identity, transform1);
+                    tempGameObject.transform.Rotate(0, 270, 0);
+                    xOffset -= offsetAmounts.x;
+                }
+                zOffset -= offsetAmounts.z;
+                xOffset += offsetAmounts.x;
+                
+                //create side wall
+                for (var j = 0; j < wallWidth; j++)
+                {
+                    if (j <= i || j >= wallWidth - i-1) continue;
+                    
+                    pos = new Vector3(xOffset, yOffset, zOffset);
+                    tempGameObject = Instantiate(buildingWalls[0], pos + position, Quaternion.identity, transform1);
+                    tempGameObject.transform.Rotate(0, 0, 0);
+                    zOffset -= offsetAmounts.z;
+                }
 
-                //if at transition point
-                if (i==wallWidth/2-1)
-                {
-                    rotAmount = 270; 
-                }
-                //if go up
-                else if (i<wallWidth/2)
-                {
-                    yOffset += offsetAmounts.y;
-                }
-                //if go down
-                else
-                {
-                    yOffset -= offsetAmounts.y;
-                }
 
                 xOffset = 0;
+                yOffset += offsetAmounts.y;
                 zOffset += offsetAmounts.z;
             }
         }
