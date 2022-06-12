@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = System.Random;
 
 namespace BuildingGeneration
 {
@@ -17,6 +18,10 @@ namespace BuildingGeneration
 
         [Header("Second Floor")] [SerializeField]
         private List<GameObject> buildingWalls;
+
+        [SerializeField] private List<GameObject> buildingDoors;
+        [SerializeField] private List<GameObject> buildingWindows;
+
 
         [SerializeField] private List<GameObject> floorCornerFences;
         [SerializeField] private List<GameObject> floorSideFences;
@@ -36,6 +41,11 @@ namespace BuildingGeneration
         [SerializeField] private int wallLength = 1;
         [SerializeField] private int wallHeight = 1;
 
+        [SerializeField] private int maxDoors = 1;
+        [Range(0, 1)] [SerializeField] private float doorSpawnChance = 0.5f;
+        [SerializeField] private int maxWindows = 2;
+        [Range(0, 1)] [SerializeField] private float windowSpawnChance = 0.5f;
+
         #endregion
 
         #region Private Fields
@@ -44,15 +54,24 @@ namespace BuildingGeneration
         private float xOffset;
         private float zOffset;
 
+        private Random randomValues;
+
+        private int doorsLeftToSpawn;
+        private int windowsLeftToSpawn;
+
         #endregion
 
         public void Generate()
         {
             ClearBuilding();
 
+            randomValues = new Random();
             xOffset = 0;
             yOffset = 0;
             zOffset = 0;
+
+            doorsLeftToSpawn = maxDoors;
+            windowsLeftToSpawn = maxWindows;
 
             //F1
             //Create starting foundation
@@ -70,7 +89,7 @@ namespace BuildingGeneration
 
             for (var b = 0; b < wallHeight; b++)
             {
-                CreateWalls(buildingWalls);
+                CreateWalls(buildingWalls, (b==0), true);
             }
 
             #endregion
@@ -92,18 +111,17 @@ namespace BuildingGeneration
             }
         }
 
-        private void CreateWalls(IReadOnlyList<GameObject> walls)
+        #region Wall functions
+
+        private void CreateWalls(IReadOnlyList<GameObject> walls, bool createDoors = false, bool createWindows = false)
         {
-            Vector3 pos;
             var transform1 = transform;
             var position = transform1.position;
-            GameObject tempGameObject;
 
             //1st wall
             for (var i = 0; i < wallWidth; i++)
             {
-                pos = new Vector3(xOffset, yOffset, zOffset);
-                Instantiate(walls[0], pos + position, Quaternion.identity, transform1);
+                DetermineWallTypeToSpawn(walls, transform1, position, 0, createDoors, createWindows);
                 zOffset += offsetAmounts.z;
             }
 
@@ -113,9 +131,7 @@ namespace BuildingGeneration
 
             for (var i = 0; i < wallLength; i++)
             {
-                pos = new Vector3(xOffset, yOffset, zOffset);
-                tempGameObject = Instantiate(walls[0], pos + position, Quaternion.identity, transform1);
-                tempGameObject.transform.Rotate(0, 90, 0);
+                DetermineWallTypeToSpawn(walls, transform1, position, 90, createDoors, createWindows);
                 xOffset += offsetAmounts.x;
             }
 
@@ -125,9 +141,7 @@ namespace BuildingGeneration
 
             for (var i = 0; i < wallWidth; i++)
             {
-                pos = new Vector3(xOffset, yOffset, zOffset);
-                tempGameObject = Instantiate(walls[0], pos + position, Quaternion.identity, transform1);
-                tempGameObject.transform.Rotate(0, 180, 0);
+                DetermineWallTypeToSpawn(walls, transform1, position, 180, createDoors, createWindows);
                 zOffset -= offsetAmounts.z;
             }
 
@@ -137,9 +151,7 @@ namespace BuildingGeneration
 
             for (var i = 0; i < wallLength; i++)
             {
-                pos = new Vector3(xOffset, yOffset, zOffset);
-                tempGameObject = Instantiate(walls[0], pos + position, Quaternion.identity, transform1);
-                tempGameObject.transform.Rotate(0, 270, 0);
+                DetermineWallTypeToSpawn(walls, transform1, position, 270, createDoors, createWindows);
                 xOffset -= offsetAmounts.x;
             }
 
@@ -147,6 +159,34 @@ namespace BuildingGeneration
             zOffset = 0;
             yOffset += offsetAmounts.y;
         }
+
+        private void SpawnWall(IReadOnlyList<GameObject> walls, Transform transform1, Vector3 position, float rotation)
+        {
+            var pos = new Vector3(xOffset, yOffset, zOffset);
+            var tempGameObject = Instantiate(walls[0], pos + position, Quaternion.identity, transform1);
+            tempGameObject.transform.Rotate(0, rotation, 0);
+        }
+
+        private void DetermineWallTypeToSpawn(IReadOnlyList<GameObject> walls, Transform transform1, Vector3 position,
+            float rotation, bool createDoors, bool createWindows)
+        {
+            if (doorsLeftToSpawn > 0 && randomValues.NextDouble() <= doorSpawnChance && createDoors)
+            {
+                doorsLeftToSpawn--;
+                SpawnWall(buildingDoors, transform1, position, rotation);
+            }
+            else if (windowsLeftToSpawn > 0 && randomValues.NextDouble() <= windowSpawnChance && createWindows)
+            {
+                windowsLeftToSpawn--;
+                SpawnWall(buildingWindows, transform1, position, rotation);
+            }
+            else
+            {
+                SpawnWall(walls, transform1, position, rotation);
+            }
+        }
+
+        #endregion
 
         private void CreateRoofs()
         {
@@ -220,8 +260,9 @@ namespace BuildingGeneration
                 xOffset = 0;
             }
 
+            //if the width is 1 we want to just add a gable roof to the top
             if (wallWidth != 1) return;
-            
+
             for (var j = 0; j < wallLength; j++)
             {
                 pos = new Vector3(xOffset, yOffset, zOffset);
