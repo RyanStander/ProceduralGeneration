@@ -165,20 +165,21 @@ namespace BuildingGeneration
                     tempGameObject.transform.Rotate(0, 90, 0);
                     xOffset += offsetAmounts.x;
                 }
+
                 zOffset += offsetAmounts.z;
                 xOffset -= offsetAmounts.x;
-                
+
                 //create side wall
                 for (var j = 0; j < wallWidth; j++)
                 {
-                    if (j <= i || j >= wallWidth - i-1) continue;
-                    
+                    if (j <= i || j >= wallWidth - i - 1) continue;
+
                     pos = new Vector3(xOffset, yOffset, zOffset);
                     tempGameObject = Instantiate(buildingWalls[0], pos + position, Quaternion.identity, transform1);
                     tempGameObject.transform.Rotate(0, 180, 0);
                     zOffset += offsetAmounts.z;
                 }
-                
+
                 //create side roof
                 for (var j = 0; j < wallLength; j++)
                 {
@@ -187,24 +188,46 @@ namespace BuildingGeneration
                     tempGameObject.transform.Rotate(0, 270, 0);
                     xOffset -= offsetAmounts.x;
                 }
+
                 zOffset -= offsetAmounts.z;
                 xOffset += offsetAmounts.x;
-                
+
                 //create side wall
                 for (var j = 0; j < wallWidth; j++)
                 {
-                    if (j <= i || j >= wallWidth - i-1) continue;
-                    
+                    if (j <= i || j >= wallWidth - i - 1) continue;
+
                     pos = new Vector3(xOffset, yOffset, zOffset);
                     tempGameObject = Instantiate(buildingWalls[0], pos + position, Quaternion.identity, transform1);
                     tempGameObject.transform.Rotate(0, 0, 0);
                     zOffset -= offsetAmounts.z;
                 }
 
-
-                xOffset = 0;
                 yOffset += offsetAmounts.y;
                 zOffset += offsetAmounts.z;
+
+                if (i == wallWidth / 2 - 1 && wallWidth % 2 != 0)
+                {
+                    for (var j = 0; j < wallLength; j++)
+                    {
+                        pos = new Vector3(xOffset, yOffset, zOffset);
+                        tempGameObject = Instantiate(gableRoofs[0], pos + position, Quaternion.identity, transform1);
+                        tempGameObject.transform.Rotate(0, 0, 0);
+                        xOffset += offsetAmounts.x;
+                    }
+                }
+
+                xOffset = 0;
+            }
+
+            if (wallWidth != 1) return;
+            
+            for (var j = 0; j < wallLength; j++)
+            {
+                pos = new Vector3(xOffset, yOffset, zOffset);
+                tempGameObject = Instantiate(gableRoofs[0], pos + position, Quaternion.identity, transform1);
+                tempGameObject.transform.Rotate(0, 0, 0);
+                xOffset += offsetAmounts.x;
             }
         }
     }
