@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5355659964953515236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5355659964953515242}
+  - component: {fileID: 5355659964953515240}
+  - component: {fileID: 5355659964953515243}
+  m_Layer: 0
+  m_Name: BuildingGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5355659964953515242
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5355659964953515236}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.16, y: -0.5, z: 0.17}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5355659964953515240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5355659964953515236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f69787c3e8e54b340806d251b3f5033b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seed: 0
+--- !u!114 &5355659964953515243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5355659964953515236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d3cc49708fa9274cb67e221535554ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foundationWalls:
+  - {fileID: 9184305008393950958, guid: 49e6095afb583814fa45865a9ba508c1, type: 3}
+  stairs:
+  - {fileID: 2023174191666865145, guid: 45a53b8af76627443976f3011484c672, type: 3}
+  pillars:
+  - {fileID: 529734392482304339, guid: 3e4342046091e0a4fb94a576980939e2, type: 3}
+  buildingWalls:
+  - {fileID: 972174451751972006, guid: 4ce0d0df4fd0c79469373200cad631d1, type: 3}
+  buildingDoors:
+  - {fileID: 5098344226604274622, guid: f0094e56bae18334fb5c50c0dc0871e6, type: 3}
+  buildingWindows:
+  - {fileID: 484253353399371001, guid: 4a1c8efba94a3f449bac1d6dbf3a567d, type: 3}
+  floorCornerFences:
+  - {fileID: 3831956392084303868, guid: cd44862be1a0e494ebcfd4788b4ad0d5, type: 3}
+  floorSideFences:
+  - {fileID: 8516818006650635773, guid: d796958c41f090e46abde985d4744b1d, type: 3}
+  floorSidePillars:
+  - {fileID: 8460273333306505501, guid: 52d4e2d246287e14e92c67bd1da0959c, type: 3}
+  gableRoofs:
+  - {fileID: 2401434016744250270, guid: f00782d635ab431498e9b6a68f610ab3, type: 3}
+  innerCornerRoof:
+  - {fileID: 6386989962594479173, guid: 2dfa499854437c84a89c44e68541908a, type: 3}
+  outerCornerRoofs:
+  - {fileID: 5018815169056724190, guid: 8d8f9b9fa7b44694ba874e6712998024, type: 3}
+  sideRoofs:
+  - {fileID: 1308917848306775029, guid: e300a003b02b8cd4d86b7718e761bb5d, type: 3}
+  offsetAmounts: {x: 1, y: 1, z: 1}
+  wallWidth: 2
+  wallLength: 4
+  wallHeight: 1
+  maxDoors: 1
+  doorSpawnChance: 0.5
+  maxWindows: 6
+  windowSpawnChance: 0.25
