@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using UnityEngine;
 using TownGeneration.Rules;
+using Random = System.Random;
 
 namespace TownGeneration
 {
@@ -9,9 +10,12 @@ namespace TownGeneration
     {
         public Rule[] rules;
         public string rootSentence;
-        [Range(0,10)]
-        public int iterationLimit = 1;
+        [Range(0, 10)] public int iterationLimit = 1;
 
+        public bool randomIgnoreRuleModifier = true;
+        [Range(0, 1)] public float chanceToIgnoreRule = 0.4f;
+
+        private Random randomValues = new Random();
         private void Start()
         {
             Debug.Log(GenerateSentence());
@@ -26,13 +30,14 @@ namespace TownGeneration
             return GrowRecursive(givenWord);
         }
 
-        private string GrowRecursive(string givenWord, int iterationIndex=0)
+        private string GrowRecursive(string givenWord, int iterationIndex = 0)
         {
             //if it has reached the limit or exceeded, return he final string
-            if (iterationIndex>=iterationLimit)
+            if (iterationIndex >= iterationLimit)
             {
                 return givenWord;
             }
+
             //otherwise create a string builder and add new words
             var newWord = new StringBuilder();
 
@@ -52,10 +57,16 @@ namespace TownGeneration
             //goes through all rules and finds a matching case and appends the result of a rule to each matching letter in the new word
             foreach (var rule in rules)
             {
-                if (rule.letter==letter.ToString())
+                if (rule.letter != letter.ToString()) continue;
+                
+                if (randomIgnoreRuleModifier && iterationIndex>1)
                 {
-                    newWord.Append(GrowRecursive(rule.GetResult(),iterationIndex+1));
-                } 
+                    if (randomValues.NextDouble()<chanceToIgnoreRule)
+                    {
+                        return;
+                    }
+                }
+                newWord.Append(GrowRecursive(rule.GetResult(), iterationIndex + 1));
             }
         }
     }

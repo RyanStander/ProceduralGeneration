@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TownGeneration
@@ -18,12 +19,16 @@ namespace TownGeneration
         public Material lineMaterial;
 
         //the length that the agent moves
-        private int length = 8;
+        [SerializeField] private float length = 8;
+
+        [SerializeField] private float lengthDecrease = 1;
 
         //the angle at which the agent turns
-        private float angle = 90;
+        [Range(0, 360)] [SerializeField] private float angle = 90;
 
-        public int Length
+        private float setLength;
+
+        public float Length
         {
             get => length > 0 ? length : 1;
             set => length = value;
@@ -31,8 +36,21 @@ namespace TownGeneration
 
         private void Start()
         {
+            setLength = length;
             var sequence = lSystem.GenerateSentence();
             VisualizeSequence(sequence);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ClearGeneration();
+                positions = new List<Vector3>();
+                length = setLength;
+                var sequence = lSystem.GenerateSentence();
+                VisualizeSequence(sequence);
+            }
         }
 
         private void VisualizeSequence(string sequence)
@@ -43,9 +61,9 @@ namespace TownGeneration
 
             var direction = Vector3.forward;
             var tempPosition = Vector3.zero;
-            
+
             positions.Add(currentPosition);
-            
+
             //generate an encoding value based on the sequence to identify the output
             foreach (var letter in sequence)
             {
@@ -61,7 +79,7 @@ namespace TownGeneration
                         });
                         break;
                     case EncodingLetters.Load:
-                        if (savePoints.Count>0)
+                        if (savePoints.Count > 0)
                         {
                             var agentParameter = savePoints.Pop();
                             currentPosition = agentParameter.position;
@@ -72,19 +90,20 @@ namespace TownGeneration
                         {
                             throw new System.Exception("No saved points found in stack");
                         }
+
                         break;
                     case EncodingLetters.Draw:
                         tempPosition = currentPosition;
                         currentPosition += direction * Length;
                         DrawLine(tempPosition, currentPosition, Color.red);
-                        Length -= 2;
+                        Length -= lengthDecrease;
                         positions.Add(currentPosition);
                         break;
                     case EncodingLetters.TurnRight:
-                        direction = Quaternion.AngleAxis(angle, Vector3.up)*direction;
+                        direction = Quaternion.AngleAxis(angle, Vector3.up) * direction;
                         break;
                     case EncodingLetters.TurnLeft:
-                        direction = Quaternion.AngleAxis(-angle, Vector3.up)*direction;
+                        direction = Quaternion.AngleAxis(-angle, Vector3.up) * direction;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -93,13 +112,14 @@ namespace TownGeneration
 
             foreach (var position in positions)
             {
-                Instantiate(prefab, position, Quaternion.identity);
+                Instantiate(prefab, position, Quaternion.identity, transform);
             }
         }
 
         private void DrawLine(Vector3 start, Vector3 end, Color color)
         {
             var line = new GameObject("Line");
+            line.transform.parent = transform;
             line.transform.position = start;
             var lineRenderer = line.AddComponent<LineRenderer>();
             lineRenderer.material = lineMaterial;
@@ -107,18 +127,28 @@ namespace TownGeneration
             lineRenderer.endColor = color;
             lineRenderer.startWidth = 0.1f;
             lineRenderer.endWidth = 0.1f;
-            lineRenderer.SetPosition(0,start);
-            lineRenderer.SetPosition(1,end);
+            lineRenderer.SetPosition(0, start);
+            lineRenderer.SetPosition(1, end);
+        }
+
+        private void ClearGeneration()
+        {
+            var children = transform.Cast<Transform>().ToList();
+
+            foreach (var child in children)
+            {
+                DestroyImmediate(child.gameObject);
+            }
         }
 
         public enum EncodingLetters
         {
-            Unknown='1',
-            Save='[',
-            Load=']',
-            Draw='F',
-            TurnRight='+',
-            TurnLeft='-',
+            Unknown = '1',
+            Save = '[',
+            Load = ']',
+            Draw = 'F',
+            TurnRight = '+',
+            TurnLeft = '-',
         }
     }
 }
