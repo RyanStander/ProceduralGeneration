@@ -1,4 +1,5 @@
 using UnityEngine;
+using Random = System.Random;
 
 namespace TownGeneration.Rules
 {
@@ -6,11 +7,16 @@ namespace TownGeneration.Rules
     public class Rule : ScriptableObject
     {
         public string letter;
-        [SerializeField] private string[] results=null;
+        [SerializeField] private string[] results;
+        [SerializeField] private bool randomResult;
 
         public string GetResult()
         {
-            return results[0];
+            if (!randomResult) return results[0];
+            
+            var randomValues = new Random();
+            var randomIndex = randomValues.Next(0, results.Length);
+            return results[randomIndex];
         }
     }
 }
