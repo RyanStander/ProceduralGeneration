@@ -15,16 +15,16 @@ namespace TownGeneration
         public RoadHelper roadHelper;
 
         //the length that the agent moves
-        [SerializeField] private float length = 8;
+        [SerializeField] private int length = 8;
 
-        [SerializeField] private float lengthDecrease = 1;
+        [SerializeField] private int lengthDecrease = 1;
 
         //the angle at which the agent turns
         [Range(0, 360)] [SerializeField] private float angle = 90;
 
-        private float setLength;
+        private int setLength;
 
-        public float Length
+        public int Length
         {
             get => length > 0 ? length : 1;
             set => length = value;
@@ -61,9 +61,8 @@ namespace TownGeneration
             positions.Add(currentPosition);
 
             //generate an encoding value based on the sequence to identify the output
-            foreach (var letter in sequence)
+            foreach (var encoding in sequence.Select(letter => (EncodingLetters) letter))
             {
-                var encoding = (EncodingLetters) letter;
                 switch (encoding)
                 {
                     case EncodingLetters.Save:
@@ -91,7 +90,7 @@ namespace TownGeneration
                     case EncodingLetters.Draw:
                         tempPosition = currentPosition;
                         currentPosition += direction * Length;
-                        roadHelper.PlaceStreetPositions(tempPosition,Vector3Int.RoundToInt(direction),length);
+                        roadHelper.PlaceStreetPositions(tempPosition, Vector3Int.RoundToInt(direction), length);
                         Length -= lengthDecrease;
                         positions.Add(currentPosition);
                         break;
@@ -101,14 +100,14 @@ namespace TownGeneration
                     case EncodingLetters.TurnLeft:
                         direction = Quaternion.AngleAxis(-angle, Vector3.up) * direction;
                         break;
+                    case EncodingLetters.Unknown:
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+
+                roadHelper.FixRoad();
             }
-
         }
-        
-
-
     }
 }
