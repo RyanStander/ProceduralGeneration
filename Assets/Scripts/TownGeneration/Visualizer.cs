@@ -7,22 +7,12 @@ namespace TownGeneration
 {
     public class Visualizer : MonoBehaviour
     {
-        public LSystemGenerator lSystem;
-
-        //a list of positions that the agent has traveled to
-        private List<Vector3> positions = new List<Vector3>();
+        public LSystemGenerator lsystem;
 
         public RoadHelper roadHelper;
-
-        //the length that the agent moves
-        [SerializeField] private int length = 8;
-
-        [SerializeField] private int lengthDecrease = 1;
-
-        //the angle at which the agent turns
-        [Range(0, 360)] [SerializeField] private float angle = 90;
-
-        private int setLength;
+        public int roadLength = 8;
+        private int length = 8;
+        private float angle = 90;
 
         public int Length
         {
@@ -32,36 +22,36 @@ namespace TownGeneration
 
         private void Start()
         {
-            setLength = length;
-            var sequence = lSystem.GenerateSentence();
-            VisualizeSequence(sequence);
+            CreateTown();
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                roadHelper.ClearGeneration();
-                positions = new List<Vector3>();
-                length = setLength;
-                var sequence = lSystem.GenerateSentence();
-                VisualizeSequence(sequence);
+                roadHelper.Reset();
+                CreateTown();
             }
+        }
+
+        private void CreateTown()
+        {
+            length = roadLength;
+            roadHelper.Reset();
+            var sequence = lsystem.GenerateSentence();
+            VisualizeSequence(sequence);
         }
 
         private void VisualizeSequence(string sequence)
         {
-            //will be performing saving and loading of points and need a last in first out method
             var savePoints = new Stack<AgentParameters>();
             var currentPosition = Vector3.zero;
 
             var direction = Vector3.forward;
             var tempPosition = Vector3.zero;
 
-            positions.Add(currentPosition);
 
-            //generate an encoding value based on the sequence to identify the output
-            foreach (var encoding in sequence.Select(letter => (EncodingLetters) letter))
+            foreach (var encoding in sequence.Select(letter => (EncodingLetters)letter))
             {
                 switch (encoding)
                 {
@@ -83,16 +73,14 @@ namespace TownGeneration
                         }
                         else
                         {
-                            throw new System.Exception("No saved points found in stack");
+                            throw new Exception("No saved points found");
                         }
-
                         break;
                     case EncodingLetters.Draw:
                         tempPosition = currentPosition;
-                        currentPosition += direction * Length;
+                        currentPosition += direction * length;
                         roadHelper.PlaceStreetPositions(tempPosition, Vector3Int.RoundToInt(direction), length);
-                        Length -= lengthDecrease;
-                        positions.Add(currentPosition);
+                        Length -= 2;
                         break;
                     case EncodingLetters.TurnRight:
                         direction = Quaternion.AngleAxis(angle, Vector3.up) * direction;
@@ -101,13 +89,13 @@ namespace TownGeneration
                         direction = Quaternion.AngleAxis(-angle, Vector3.up) * direction;
                         break;
                     case EncodingLetters.Unknown:
-                        break;
+                        throw new Exception("The encoding letter is unknown");
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-
-                roadHelper.FixRoad();
             }
+            roadHelper.FixRoad();
+
         }
     }
 }
