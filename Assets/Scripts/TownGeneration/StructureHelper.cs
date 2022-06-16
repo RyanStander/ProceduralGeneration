@@ -12,9 +12,26 @@ namespace TownGeneration
         public void PlaceStructuresAroundRoad(List<Vector3Int> roadPositions)
         {
             var freeEstateSpots = FindFreeSpacesAroundRoad(roadPositions);
-            foreach (var position in freeEstateSpots.Keys)
+            foreach (var freeSpot in freeEstateSpots)
             {
-                Instantiate(prefab, position, Quaternion.identity, transform);
+                var rotation = Quaternion.identity;
+                switch (freeSpot.Value)
+                {
+                    case Direction.Up:
+                        rotation=Quaternion.Euler(0,90,0);
+                        break;
+                    case Direction.Down:
+                        rotation = Quaternion.Euler(0,-90,0);
+                        break;
+                    case Direction.Right:
+                        rotation = Quaternion.Euler(0,180,0);
+                        break;
+                    case Direction.Left:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                Instantiate(prefab, freeSpot.Key, rotation, transform);
             }
         }
 
@@ -34,7 +51,7 @@ namespace TownGeneration
                             continue;
                         }
 
-                        freeSpaces.Add(newPosition, Direction.Right);
+                        freeSpaces.Add(newPosition, PlacementHelper.GetReverseDirection(direction));
                     }
                 }
             }
