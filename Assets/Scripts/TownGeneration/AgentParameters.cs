@@ -9,6 +9,6 @@ namespace TownGeneration
         //where we want to go in which direction
         public Vector3 direction;
         //length of the movement
-        public float length;
+        public int length;
     }
 }

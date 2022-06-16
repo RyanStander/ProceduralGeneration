@@ -19,16 +19,16 @@ namespace TownGeneration
         public Material lineMaterial;
 
         //the length that the agent moves
-        [SerializeField] private float length = 8;
+        [SerializeField] private int length = 8;
 
-        [SerializeField] private float lengthDecrease = 1;
+        [SerializeField] private int lengthDecrease = 1;
 
         //the angle at which the agent turns
         [Range(0, 360)] [SerializeField] private float angle = 90;
 
-        private float setLength;
+        private int setLength;
 
-        public float Length
+        public int Length
         {
             get => length > 0 ? length : 1;
             set => length = value;
@@ -139,16 +139,6 @@ namespace TownGeneration
             {
                 DestroyImmediate(child.gameObject);
             }
-        }
-
-        public enum EncodingLetters
-        {
-            Unknown = '1',
-            Save = '[',
-            Load = ']',
-            Draw = 'F',
-            TurnRight = '+',
-            TurnLeft = '-',
         }
     }
 }
