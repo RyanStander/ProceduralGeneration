@@ -1348,7 +1348,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f4a49e65687fd342be8c8c8709210f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 919132149155446097, guid: 083a6e082372cd840964c58a99056e2b, type: 3}
+  houseTypes:
+  - prefabs:
+    - {fileID: 919132149155446097, guid: d102081880b418f4fb25587ba4cc9419, type: 3}
+    - {fileID: 919132149155446097, guid: 22930e33247435b46b69be7d6ddcdc75, type: 3}
+    sizeRequired: 1
+    quantity: 5
+    quantityAlreadyPlaced: 0
+  - prefabs:
+    - {fileID: 919132149155446097, guid: 083a6e082372cd840964c58a99056e2b, type: 3}
+    - {fileID: 919132149155446097, guid: 6819b11c37fcfa144a14bd918a796c74, type: 3}
+    sizeRequired: 1
+    quantity: -1
+    quantityAlreadyPlaced: 0
 --- !u!1001 &192867349
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ namespace TownGeneration
 {
     public class StructureHelper : MonoBehaviour
     {
-        public GameObject prefab;
+        public HouseType[] houseTypes;
         public Dictionary<Vector3Int, GameObject> structuresDictionary = new Dictionary<Vector3Int, GameObject>();
 
         public void PlaceStructuresAroundRoad(List<Vector3Int> roadPositions)
@@ -31,8 +31,38 @@ namespace TownGeneration
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                Instantiate(prefab, freeSpot.Key, rotation, transform);
+
+                for (int i = 0; i < houseTypes.Length; i++)
+                {
+                    if (houseTypes[i].quantity==-1)
+                    {
+                        var building = SpawnPrefab(houseTypes[i].GetPrefab(), freeSpot.Key, rotation);
+                        structuresDictionary.Add(freeSpot.Key,building);
+                        break;
+                    }
+
+                    if (houseTypes[i].IsBuildingAvailable())
+                    {
+                        if (houseTypes[i].sizeRequired>1)
+                        {
+                            
+                        }
+                        else
+                        {
+                            var building = SpawnPrefab(houseTypes[i].GetPrefab(), freeSpot.Key, rotation);
+                            structuresDictionary.Add(freeSpot.Key,building); break;
+                        }
+                        break;
+                    }
+                }
+          
             }
+        }
+
+        private GameObject SpawnPrefab(GameObject prefab, Vector3Int position, Quaternion rotation)
+        {
+            var newStructure = Instantiate(prefab, position, rotation, transform);
+            return newStructure;
         }
 
         private Dictionary<Vector3Int, Direction> FindFreeSpacesAroundRoad(List<Vector3Int> roadPositions)
