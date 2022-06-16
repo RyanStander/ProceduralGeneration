@@ -10,6 +10,7 @@ namespace TownGeneration
         public LSystemGenerator lsystem;
 
         public RoadHelper roadHelper;
+        public StructureHelper structureHelper;
         public int roadLength = 8;
         private int length = 8;
         private float angle = 90;
@@ -96,6 +97,7 @@ namespace TownGeneration
             }
             roadHelper.FixRoad();
 
+            structureHelper.PlaceStructuresAroundRoad(roadHelper.GetRoadPositions());
         }
     }
 }

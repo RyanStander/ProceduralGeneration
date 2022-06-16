@@ -43,8 +43,6 @@ namespace TownGeneration
                     return Vector3Int.left;
                 case Direction.Right:
                     return Vector3Int.right;
-                default:
-                    break;
             }
 
             throw new System.Exception("No direction such as " + direction);
