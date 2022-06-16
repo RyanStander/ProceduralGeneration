@@ -5,18 +5,14 @@ using UnityEngine;
 
 namespace TownGeneration
 {
-    public class SimpleVisualizer : MonoBehaviour
+    public class Visualizer : MonoBehaviour
     {
         public LSystemGenerator lSystem;
 
         //a list of positions that the agent has traveled to
         private List<Vector3> positions = new List<Vector3>();
 
-        //prefab to display where the agent has visited
-        public GameObject prefab;
-
-        //using a line renderer to draw a line to show the path
-        public Material lineMaterial;
+        public RoadHelper roadHelper;
 
         //the length that the agent moves
         [SerializeField] private float length = 8;
@@ -45,7 +41,7 @@ namespace TownGeneration
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                ClearGeneration();
+                roadHelper.ClearGeneration();
                 positions = new List<Vector3>();
                 length = setLength;
                 var sequence = lSystem.GenerateSentence();
@@ -95,7 +91,7 @@ namespace TownGeneration
                     case EncodingLetters.Draw:
                         tempPosition = currentPosition;
                         currentPosition += direction * Length;
-                        DrawLine(tempPosition, currentPosition, Color.red);
+                        roadHelper.PlaceStreetPositions(tempPosition,Vector3Int.RoundToInt(direction),length);
                         Length -= lengthDecrease;
                         positions.Add(currentPosition);
                         break;
@@ -110,35 +106,9 @@ namespace TownGeneration
                 }
             }
 
-            foreach (var position in positions)
-            {
-                Instantiate(prefab, position, Quaternion.identity, transform);
-            }
         }
+        
 
-        private void DrawLine(Vector3 start, Vector3 end, Color color)
-        {
-            var line = new GameObject("Line");
-            line.transform.parent = transform;
-            line.transform.position = start;
-            var lineRenderer = line.AddComponent<LineRenderer>();
-            lineRenderer.material = lineMaterial;
-            lineRenderer.startColor = color;
-            lineRenderer.endColor = color;
-            lineRenderer.startWidth = 0.1f;
-            lineRenderer.endWidth = 0.1f;
-            lineRenderer.SetPosition(0, start);
-            lineRenderer.SetPosition(1, end);
-        }
 
-        private void ClearGeneration()
-        {
-            var children = transform.Cast<Transform>().ToList();
-
-            foreach (var child in children)
-            {
-                DestroyImmediate(child.gameObject);
-            }
-        }
     }
 }
