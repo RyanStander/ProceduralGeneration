@@ -46,6 +46,8 @@ namespace BuildingGeneration
         [SerializeField] private int maxWindows = 2;
         [Range(0, 1)] [SerializeField] private float windowSpawnChance = 0.5f;
 
+        public int buildingYRotation = 90;
+
         #endregion
 
         #region Private Fields
@@ -66,9 +68,11 @@ namespace BuildingGeneration
             ClearBuilding();
 
             randomValues = new Random();
-            xOffset = 0;
-            yOffset = 0;
+            
+            xOffset = -(wallLength*offsetAmounts.x)/2; 
             zOffset = 0;
+            yOffset = 0;
+
 
             doorsLeftToSpawn = maxDoors;
             windowsLeftToSpawn = maxWindows;
@@ -99,6 +103,20 @@ namespace BuildingGeneration
             //F3
             //Add roof
             CreateRoofs();
+            
+            transform.Rotate(0,buildingYRotation,0);
+        }
+
+        public void SetBuildingGeneratorValues(int givenWallWidth, int givenWallLength, int givenWallHeight,int givenBuildingYRotation,int givenMaxDoors=1,float givenDoorSpawnChance=0.5f, int givenMaxWindows=2,float givenWindowSpawnChance=0.25f)
+        {
+            wallWidth = givenWallWidth;
+            wallLength = givenWallLength;
+            wallHeight = givenWallHeight;
+            maxDoors = givenMaxDoors;
+            doorSpawnChance = givenDoorSpawnChance;
+            maxWindows = givenMaxWindows;
+            windowSpawnChance = givenWindowSpawnChance;
+            buildingYRotation = givenBuildingYRotation;
         }
 
         public void ClearBuilding()
@@ -155,7 +173,7 @@ namespace BuildingGeneration
                 xOffset -= offsetAmounts.x;
             }
 
-            xOffset = 0;
+            xOffset = -(wallLength*offsetAmounts.x)/2; 
             zOffset = 0;
             yOffset += offsetAmounts.y;
         }
@@ -257,7 +275,7 @@ namespace BuildingGeneration
                     }
                 }
 
-                xOffset = 0;
+                xOffset = -(wallLength*offsetAmounts.x)/2; 
             }
 
             //if the width is 1 we want to just add a gable roof to the top

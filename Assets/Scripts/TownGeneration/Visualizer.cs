@@ -7,6 +7,7 @@ namespace TownGeneration
 {
     public class Visualizer : MonoBehaviour
     {
+        public RandomGenerator randomGenerator;
         public LSystemGenerator lsystem;
 
         public RoadHelper roadHelper;
@@ -38,6 +39,7 @@ namespace TownGeneration
 
         private void CreateTown()
         {
+            randomGenerator.InitializeRandom();
             length = roadLength;
             roadHelper.Reset();
             var sequence = lsystem.GenerateSentence();
