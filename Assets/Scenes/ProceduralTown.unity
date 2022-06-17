@@ -1264,6 +1264,7 @@ GameObject:
   - component: {fileID: 172212072}
   - component: {fileID: 172212074}
   - component: {fileID: 172212076}
+  - component: {fileID: 172212077}
   m_Layer: 0
   m_Name: Visualizer
   m_TagString: Untagged
@@ -1283,6 +1284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fdb92446a073174c953b4469586bdca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randomGenerator: {fileID: 172212077}
   lsystem: {fileID: 172212075}
   roadHelper: {fileID: 172212074}
   structureHelper: {fileID: 172212076}
@@ -1348,21 +1350,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f4a49e65687fd342be8c8c8709210f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  randomGenerator: {fileID: 172212077}
   buildingTypes:
   - prefabs:
-    - {fileID: 919132149155446097, guid: 083a6e082372cd840964c58a99056e2b, type: 3}
-    - {fileID: 919132149155446097, guid: 6819b11c37fcfa144a14bd918a796c74, type: 3}
-    - {fileID: 919132149155446097, guid: 8538cff99cfca45479736f21e50f64ac, type: 3}
-    - {fileID: 919132149155446097, guid: a39814c87d730ce41a09acb23f77bc53, type: 3}
-    sizeRequired: 2
-    quantity: 5
-    quantityAlreadyPlaced: 0
-  - prefabs:
-    - {fileID: 919132149155446097, guid: 083a6e082372cd840964c58a99056e2b, type: 3}
-    - {fileID: 919132149155446097, guid: 6819b11c37fcfa144a14bd918a796c74, type: 3}
-    sizeRequired: 2
+    - {fileID: 5355659964953515236, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+    sizeRequired: 5
     quantity: -1
     quantityAlreadyPlaced: 0
+    wallWidthRange: {x: 2, y: 3}
+    wallLengthRange: {x: 4, y: 6}
+    wallHeightRange: {x: 1, y: 3}
+    maxDoorsRange: {x: 1, y: 2}
+    doorSpawnChance: 0.5
+    maxWindowsRange: {x: 2, y: 4}
+    windowSpawnChance: 0.5
+--- !u!114 &172212077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172212071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f69787c3e8e54b340806d251b3f5033b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seed: 0
 --- !u!1001 &192867349
 PrefabInstance:
   m_ObjectHideFlags: 0
