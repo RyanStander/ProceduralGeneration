@@ -31,6 +31,7 @@ namespace TownGeneration
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 roadHelper.Reset();
+                structureHelper.Reset();
                 CreateTown();
             }
         }
