@@ -1263,6 +1263,7 @@ GameObject:
   - component: {fileID: 172212075}
   - component: {fileID: 172212072}
   - component: {fileID: 172212074}
+  - component: {fileID: 172212076}
   m_Layer: 0
   m_Name: Visualizer
   m_TagString: Untagged
@@ -1284,6 +1285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lsystem: {fileID: 172212075}
   roadHelper: {fileID: 172212074}
+  structureHelper: {fileID: 172212076}
   roadLength: 8
 --- !u!4 &172212073
 Transform:
@@ -1334,6 +1336,31 @@ MonoBehaviour:
   iterationLimit: 3
   randomIgnoreRuleModifier: 1
   chanceToIgnoreRule: 0.4
+--- !u!114 &172212076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172212071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4a49e65687fd342be8c8c8709210f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  houseTypes:
+  - prefabs:
+    - {fileID: 919132149155446097, guid: d102081880b418f4fb25587ba4cc9419, type: 3}
+    - {fileID: 919132149155446097, guid: 22930e33247435b46b69be7d6ddcdc75, type: 3}
+    sizeRequired: 1
+    quantity: 5
+    quantityAlreadyPlaced: 0
+  - prefabs:
+    - {fileID: 919132149155446097, guid: 083a6e082372cd840964c58a99056e2b, type: 3}
+    - {fileID: 919132149155446097, guid: 6819b11c37fcfa144a14bd918a796c74, type: 3}
+    sizeRequired: 1
+    quantity: -1
+    quantityAlreadyPlaced: 0
 --- !u!1001 &192867349
 PrefabInstance:
   m_ObjectHideFlags: 0

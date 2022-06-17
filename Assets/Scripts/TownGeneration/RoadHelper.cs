@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TownGeneration
@@ -12,6 +13,11 @@ namespace TownGeneration
 		public GameObject roadEnd;
 		private Dictionary<Vector3Int, GameObject> roadDictionary = new Dictionary<Vector3Int, GameObject>();
 		private HashSet<Vector3Int> fixRoadCandidates = new HashSet<Vector3Int>();
+
+		public List<Vector3Int> GetRoadPositions()
+		{
+			return roadDictionary.Keys.ToList();
+		}
 
 		public void PlaceStreetPositions(Vector3 startPosition, Vector3Int direction, int length)
 		{
