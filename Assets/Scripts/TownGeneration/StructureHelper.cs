@@ -15,6 +15,12 @@ namespace TownGeneration
         [Header("Buildings")] public HouseType[] buildingTypes;
         public Dictionary<Vector3Int, GameObject> structuresDictionary = new Dictionary<Vector3Int, GameObject>();
 
+        private void OnValidate()
+        {
+            if (randomGenerator==null)
+                randomGenerator = GetComponent<RandomGenerator>();
+        }
+        
         public void PlaceStructuresAroundRoad(List<Vector3Int> roadPositions)
         {
             var freeEstateSpots = FindFreeSpacesAroundRoad(roadPositions);

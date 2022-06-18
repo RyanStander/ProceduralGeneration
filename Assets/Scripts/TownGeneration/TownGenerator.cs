@@ -5,7 +5,11 @@ using UnityEngine;
 
 namespace TownGeneration
 {
-    public class Visualizer : MonoBehaviour
+    [RequireComponent(typeof(LSystemGenerator))]
+    [RequireComponent(typeof(RoadHelper))]
+    [RequireComponent(typeof(StructureHelper))]
+    [RequireComponent(typeof(RandomGenerator))]
+    public class TownGenerator : MonoBehaviour
     {
         public RandomGenerator randomGenerator;
         public LSystemGenerator lsystem;
@@ -22,27 +26,22 @@ namespace TownGeneration
             set => length = value;
         }
 
-        private void Start()
+        private void OnValidate()
         {
-            CreateTown();
+            if (randomGenerator==null)
+                randomGenerator = GetComponent<RandomGenerator>();
+            if (structureHelper==null)
+                structureHelper = GetComponent<StructureHelper>();
+            if (roadHelper==null)
+                roadHelper = GetComponent<RoadHelper>();
+            if (lsystem==null)
+                lsystem = GetComponent<LSystemGenerator>();
         }
 
-        private void Update()
+        public void CreateTown()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                roadHelper.Reset();
-                structureHelper.Reset();
-                CreateTown();
-            }
-        }
-
-        private void CreateTown()
-        {
+            ResetTown();
             randomGenerator.InitializeRandom();
-            length = roadLength;
-            roadHelper.Reset();
-            structureHelper.Reset();
             var sequence = lsystem.GenerateSentence();
             VisualizeSequence(sequence);
         }
@@ -102,6 +101,25 @@ namespace TownGeneration
             roadHelper.FixRoad();
 
             structureHelper.PlaceStructuresAroundRoad(roadHelper.GetRoadPositions());
+        }
+
+        public void ClearObjects()
+        {
+            ResetTown();
+            
+            var children = transform.Cast<Transform>().ToList();
+
+            foreach (var child in children)
+            {
+                DestroyImmediate(child.gameObject);
+            }
+        }
+
+        public void ResetTown()
+        {
+            roadHelper.Reset();
+            structureHelper.Reset();
+            length = roadLength;
         }
     }
 }
