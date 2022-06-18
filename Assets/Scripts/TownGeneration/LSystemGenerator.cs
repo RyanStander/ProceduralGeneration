@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using UnityEngine;
 using TownGeneration.Rules;
@@ -14,9 +15,11 @@ namespace TownGeneration
         [Range(0, 1)] public float chanceToIgnoreRule = 0.4f;
 
         [SerializeField]private RandomGenerator randomGenerator;
-        private void Start()
+
+        private void OnValidate()
         {
-            Debug.Log(GenerateSentence());
+            if (randomGenerator==null)
+                randomGenerator = GetComponent<RandomGenerator>();
         }
 
         public string GenerateSentence(string givenWord = null)
