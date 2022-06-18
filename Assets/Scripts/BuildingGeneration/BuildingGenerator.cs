@@ -11,28 +11,28 @@ namespace BuildingGeneration
         #region Serialized Fields
 
         [Header("First Floor")] [SerializeField]
-        private List<GameObject> foundationWalls;
+        private GameObject foundationWalls;
 
-        [SerializeField] private List<GameObject> stairs;
-        [SerializeField] private List<GameObject> pillars;
+        [SerializeField] private GameObject stair;
+        [SerializeField] private GameObject pillar;
 
         [Header("Second Floor")] [SerializeField]
-        private List<GameObject> buildingWalls;
+        private GameObject buildingWall;
 
-        [SerializeField] private List<GameObject> buildingDoors;
-        [SerializeField] private List<GameObject> buildingWindows;
+        [SerializeField] private GameObject buildingDoor;
+        [SerializeField] private GameObject buildingWindow;
 
 
-        [SerializeField] private List<GameObject> floorCornerFences;
-        [SerializeField] private List<GameObject> floorSideFences;
-        [SerializeField] private List<GameObject> floorSidePillars;
+        [SerializeField] private GameObject floorCornerFence;
+        [SerializeField] private GameObject floorSideFence;
+        [SerializeField] private GameObject floorSidePillar;
 
-        [Header("Third Floor")] [SerializeField]
-        private List<GameObject> gableRoofs;
+        [Header("Roofs")] [SerializeField]
+        private GameObject gableRoof;
 
-        [SerializeField] private List<GameObject> innerCornerRoof;
-        [SerializeField] private List<GameObject> outerCornerRoofs;
-        [SerializeField] private List<GameObject> sideRoofs;
+        [SerializeField] private GameObject innerCornerRoof;
+        [SerializeField] private GameObject outerCornerRoof;
+        [SerializeField] private GameObject sideRoof;
 
         [Header("Building Values")] [SerializeField]
         private Vector3 offsetAmounts;
@@ -96,7 +96,7 @@ namespace BuildingGeneration
 
             for (var b = 0; b < wallHeight; b++)
             {
-                CreateWalls(buildingWalls, (b==0), true);
+                CreateWalls(buildingWall, (b==0), true);
             }
 
             #endregion
@@ -134,7 +134,7 @@ namespace BuildingGeneration
 
         #region Wall functions
 
-        private void CreateWalls(IReadOnlyList<GameObject> walls, bool createDoors = false, bool createWindows = false)
+        private void CreateWalls(GameObject walls, bool createDoors = false, bool createWindows = false)
         {
             var transform1 = transform;
             var position = transform1.position;
@@ -181,25 +181,25 @@ namespace BuildingGeneration
             yOffset += offsetAmounts.y;
         }
 
-        private void SpawnWall(IReadOnlyList<GameObject> walls, Transform transform1, Vector3 position, float rotation)
+        private void SpawnWall(GameObject walls, Transform transform1, Vector3 position, float rotation)
         {
             var pos = new Vector3(xOffset, yOffset, zOffset);
-            var tempGameObject = Instantiate(walls[0], pos + position, Quaternion.identity, transform1);
+            var tempGameObject = Instantiate(walls, pos + position, Quaternion.identity, transform1);
             tempGameObject.transform.Rotate(0, rotation, 0);
         }
 
-        private void DetermineWallTypeToSpawn(IReadOnlyList<GameObject> walls, Transform transform1, Vector3 position,
+        private void DetermineWallTypeToSpawn(GameObject walls, Transform transform1, Vector3 position,
             float rotation, bool createDoors, bool createWindows)
         {
             if (doorsLeftToSpawn > 0 && randomGenerator.NextDouble() <= doorSpawnChance && createDoors)
             {
                 doorsLeftToSpawn--;
-                SpawnWall(buildingDoors, transform1, position, rotation);
+                SpawnWall(buildingDoor, transform1, position, rotation);
             }
             else if (windowsLeftToSpawn > 0 && randomGenerator.NextDouble() <= windowSpawnChance && createWindows)
             {
                 windowsLeftToSpawn--;
-                SpawnWall(buildingWindows, transform1, position, rotation);
+                SpawnWall(buildingWindow, transform1, position, rotation);
             }
             else
             {
@@ -222,7 +222,7 @@ namespace BuildingGeneration
                 for (var j = 0; j < wallLength; j++)
                 {
                     pos = new Vector3(xOffset, yOffset, zOffset);
-                    tempGameObject = Instantiate(sideRoofs[0], pos + position, Quaternion.identity, transform1);
+                    tempGameObject = Instantiate(sideRoof, pos + position, Quaternion.identity, transform1);
                     tempGameObject.transform.Rotate(0, 90, 0);
                     xOffset += offsetAmounts.x;
                 }
@@ -236,7 +236,7 @@ namespace BuildingGeneration
                     if (j <= i || j >= wallWidth - i - 1) continue;
 
                     pos = new Vector3(xOffset, yOffset, zOffset);
-                    tempGameObject = Instantiate(buildingWalls[0], pos + position, Quaternion.identity, transform1);
+                    tempGameObject = Instantiate(buildingWall, pos + position, Quaternion.identity, transform1);
                     tempGameObject.transform.Rotate(0, 180, 0);
                     zOffset += offsetAmounts.z;
                 }
@@ -245,7 +245,7 @@ namespace BuildingGeneration
                 for (var j = 0; j < wallLength; j++)
                 {
                     pos = new Vector3(xOffset, yOffset, zOffset);
-                    tempGameObject = Instantiate(sideRoofs[0], pos + position, Quaternion.identity, transform1);
+                    tempGameObject = Instantiate(sideRoof, pos + position, Quaternion.identity, transform1);
                     tempGameObject.transform.Rotate(0, 270, 0);
                     xOffset -= offsetAmounts.x;
                 }
@@ -259,7 +259,7 @@ namespace BuildingGeneration
                     if (j <= i || j >= wallWidth - i - 1) continue;
 
                     pos = new Vector3(xOffset, yOffset, zOffset);
-                    tempGameObject = Instantiate(buildingWalls[0], pos + position, Quaternion.identity, transform1);
+                    tempGameObject = Instantiate(buildingWall, pos + position, Quaternion.identity, transform1);
                     tempGameObject.transform.Rotate(0, 0, 0);
                     zOffset -= offsetAmounts.z;
                 }
@@ -272,7 +272,7 @@ namespace BuildingGeneration
                     for (var j = 0; j < wallLength; j++)
                     {
                         pos = new Vector3(xOffset, yOffset, zOffset);
-                        tempGameObject = Instantiate(gableRoofs[0], pos + position, Quaternion.identity, transform1);
+                        tempGameObject = Instantiate(gableRoof, pos + position, Quaternion.identity, transform1);
                         tempGameObject.transform.Rotate(0, 0, 0);
                         xOffset += offsetAmounts.x;
                     }
@@ -287,7 +287,7 @@ namespace BuildingGeneration
             for (var j = 0; j < wallLength; j++)
             {
                 pos = new Vector3(xOffset, yOffset, zOffset);
-                tempGameObject = Instantiate(gableRoofs[0], pos + position, Quaternion.identity, transform1);
+                tempGameObject = Instantiate(gableRoof, pos + position, Quaternion.identity, transform1);
                 tempGameObject.transform.Rotate(0, 0, 0);
                 xOffset += offsetAmounts.x;
             }

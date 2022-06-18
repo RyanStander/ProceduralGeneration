@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2256002091149034344
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5355659964953515236, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: m_Name
+      value: GreenStoneBuildingGenerator
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355659964953515242, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355659964953515242, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355659964953515242, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355659964953515242, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355659964953515242, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355659964953515242, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355659964953515242, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355659964953515242, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355659964953515242, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355659964953515242, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355659964953515242, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8423143435415280621, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: sideRoof
+      value: 
+      objectReference: {fileID: 2304501830666556512, guid: f6796c30af3982e448d41bdee2c5e64f, type: 3}
+    - target: {fileID: 8423143435415280621, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: gableRoof
+      value: 
+      objectReference: {fileID: 3292971959284242046, guid: c86d7f15784eef647bc56e9561c552fb, type: 3}
+    - target: {fileID: 8423143435415280621, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: buildingDoor
+      value: 
+      objectReference: {fileID: 6939943918447776738, guid: 62d85be04deebd5439b2e7ed105e3736, type: 3}
+    - target: {fileID: 8423143435415280621, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: buildingWall
+      value: 
+      objectReference: {fileID: 6990469979990548789, guid: b0e854381ae1ca04999125e54a8e4e7c, type: 3}
+    - target: {fileID: 8423143435415280621, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: buildingWindow
+      value: 
+      objectReference: {fileID: 2313770221962355898, guid: 200044b3edbee764daed417a4063f941, type: 3}
+    - target: {fileID: 8423143435415280621, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: innerCornerRoof
+      value: 
+      objectReference: {fileID: 7138865405831476489, guid: 175ac503f639de542be7bc02747764b3, type: 3}
+    - target: {fileID: 8423143435415280621, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+      propertyPath: outerCornerRoof
+      value: 
+      objectReference: {fileID: 2459648044552845618, guid: 150df0d39f5c10949aa02b6ad156b3a3, type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
