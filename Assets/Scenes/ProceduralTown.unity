@@ -1369,7 +1369,7 @@ MonoBehaviour:
   randomDecorationsPlacementThreshold: 0.3
   buildingTypes:
   - prefabs:
-    - {fileID: 5355659964953515236, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+    - {fileID: 6133284415355213708, guid: 9145d47866a02a246804c5dbd3f78fb9, type: 3}
     sizeRequired: 11
     quantity: 1
     quantityAlreadyPlaced: 0
@@ -1416,7 +1416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69787c3e8e54b340806d251b3f5033b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seed: 4
+  seed: 1
 --- !u!1001 &192867349
 PrefabInstance:
   m_ObjectHideFlags: 0
