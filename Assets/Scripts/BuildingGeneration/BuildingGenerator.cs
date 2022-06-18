@@ -56,18 +56,21 @@ namespace BuildingGeneration
         private float xOffset;
         private float zOffset;
 
-        private Random randomValues;
+        [SerializeField]private RandomGenerator randomGenerator;
 
         private int doorsLeftToSpawn;
         private int windowsLeftToSpawn;
 
         #endregion
 
-        public void Generate()
+        public void Generate(RandomGenerator givenRandomGenerator=null)
         {
             ClearBuilding();
 
-            randomValues = new Random();
+            if (givenRandomGenerator!=null)
+            {
+                randomGenerator=givenRandomGenerator;
+            }
             
             xOffset = -(wallLength*offsetAmounts.x)/2; 
             zOffset = 0;
@@ -188,12 +191,12 @@ namespace BuildingGeneration
         private void DetermineWallTypeToSpawn(IReadOnlyList<GameObject> walls, Transform transform1, Vector3 position,
             float rotation, bool createDoors, bool createWindows)
         {
-            if (doorsLeftToSpawn > 0 && randomValues.NextDouble() <= doorSpawnChance && createDoors)
+            if (doorsLeftToSpawn > 0 && randomGenerator.NextDouble() <= doorSpawnChance && createDoors)
             {
                 doorsLeftToSpawn--;
                 SpawnWall(buildingDoors, transform1, position, rotation);
             }
-            else if (windowsLeftToSpawn > 0 && randomValues.NextDouble() <= windowSpawnChance && createWindows)
+            else if (windowsLeftToSpawn > 0 && randomGenerator.NextDouble() <= windowSpawnChance && createWindows)
             {
                 windowsLeftToSpawn--;
                 SpawnWall(buildingWindows, transform1, position, rotation);

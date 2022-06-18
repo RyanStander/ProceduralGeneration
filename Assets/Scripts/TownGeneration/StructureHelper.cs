@@ -8,7 +8,11 @@ namespace TownGeneration
     public class StructureHelper : MonoBehaviour
     {
         public RandomGenerator randomGenerator;
-        public HouseType[] buildingTypes;
+        [Header("Decoration")] public GameObject[] decorationPrefabs;
+        public bool randomDecorationsPlacement;
+        [Range(0, 1)] public float randomDecorationsPlacementThreshold = 0.3f;
+        public Dictionary<Vector3Int, GameObject> decorationsDictionary = new Dictionary<Vector3Int, GameObject>();
+        [Header("Buildings")] public HouseType[] buildingTypes;
         public Dictionary<Vector3Int, GameObject> structuresDictionary = new Dictionary<Vector3Int, GameObject>();
 
         public void PlaceStructuresAroundRoad(List<Vector3Int> roadPositions)
@@ -29,6 +33,20 @@ namespace TownGeneration
                 {
                     if (buildingTypes[i].quantity == -1)
                     {
+                        if (randomDecorationsPlacement)
+                        {
+                            var random = randomGenerator.NextDouble();
+                            if (random < randomDecorationsPlacementThreshold)
+                            {
+                                var decoration =
+                                    SpawnDecoration(
+                                        decorationPrefabs[randomGenerator.Next(0, decorationPrefabs.Length, false)],
+                                        freeSpot.Key, rotation);
+                                decorationsDictionary.Add(freeSpot.Key, decoration);
+                                break;
+                            }
+                        }
+
                         PlaceBuilding(i, rotation, freeSpot, ref freeEstateSpots, ref blockedPositions);
                         break;
                     }
@@ -111,20 +129,27 @@ namespace TownGeneration
             var buildingGenerator = newStructure.GetComponentInChildren<BuildingGenerator>();
 
             buildingGenerator.SetBuildingGeneratorValues(
-                randomGenerator.IntBetweenRangeInclusive(buildingType.wallWidthRange.x, buildingType.wallWidthRange.y),
-                randomGenerator.IntBetweenRangeInclusive(buildingType.wallLengthRange.x, buildingType.wallLengthRange.y),
-                randomGenerator.IntBetweenRangeInclusive(buildingType.wallHeightRange.x, buildingType.wallHeightRange.y),
+                randomGenerator.Next(buildingType.wallWidthRange.x, buildingType.wallWidthRange.y),
+                randomGenerator.Next(buildingType.wallLengthRange.x, buildingType.wallLengthRange.y),
+                randomGenerator.Next(buildingType.wallHeightRange.x, buildingType.wallHeightRange.y),
                 DetermineRotation(direction),
-                randomGenerator.IntBetweenRangeInclusive(buildingType.maxDoorsRange.x, buildingType.maxDoorsRange.y),
+                randomGenerator.Next(buildingType.maxDoorsRange.x, buildingType.maxDoorsRange.y),
                 buildingType.doorSpawnChance,
-                randomGenerator.IntBetweenRangeInclusive(buildingType.maxWindowsRange.x, buildingType.maxWindowsRange.y),
+                randomGenerator.Next(buildingType.maxWindowsRange.x, buildingType.maxWindowsRange.y),
                 buildingType.windowSpawnChance);
 
             buildingGenerator.buildingYRotation = DetermineRotation(direction);
 
-            buildingGenerator.Generate();
+            buildingGenerator.Generate(randomGenerator);
 
             return newStructure;
+        }
+
+        private GameObject SpawnDecoration(GameObject prefab, Vector3Int position, Quaternion rotation)
+        {
+            var newDecoration = Instantiate(prefab, position, rotation, transform);
+
+            return newDecoration;
         }
 
         private static Dictionary<Vector3Int, Direction> FindFreeSpacesAroundRoad(List<Vector3Int> roadPositions)
@@ -164,10 +189,16 @@ namespace TownGeneration
         {
             foreach (var item in structuresDictionary.Values)
             {
-                Destroy(item);
+                DestroyImmediate(item);
+            }
+            
+            foreach (var item in decorationsDictionary.Values)
+            {
+                DestroyImmediate(item);
             }
 
             structuresDictionary.Clear();
+            decorationsDictionary.Clear();
 
             foreach (var buildingType in buildingTypes)
             {

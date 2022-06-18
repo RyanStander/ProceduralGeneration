@@ -42,6 +42,7 @@ namespace TownGeneration
             randomGenerator.InitializeRandom();
             length = roadLength;
             roadHelper.Reset();
+            structureHelper.Reset();
             var sequence = lsystem.GenerateSentence();
             VisualizeSequence(sequence);
         }
