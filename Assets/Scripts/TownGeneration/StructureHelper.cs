@@ -39,16 +39,13 @@ namespace TownGeneration
                 {
                     if (buildingTypes[i].quantity == -1)
                     {
+                        //handle decoration placement
                         if (randomDecorationsPlacement)
                         {
                             var random = randomGenerator.NextDouble();
                             if (random < randomDecorationsPlacementThreshold)
                             {
-                                var decoration =
-                                    SpawnDecoration(
-                                        decorationPrefabs[randomGenerator.Next(0, decorationPrefabs.Length, false)],
-                                        freeSpot.Key, rotation);
-                                decorationsDictionary.Add(freeSpot.Key, decoration);
+                                PlaceDecoration(rotation,freeSpot,ref freeEstateSpots, ref blockedPositions);
                                 break;
                             }
                         }
@@ -93,6 +90,24 @@ namespace TownGeneration
                 var building = SpawnPrefab(buildingTypes[index], freeSpot.Key, rotation, freeSpot.Value);
                 structuresDictionary.Add(freeSpot.Key, building);
             }
+        }
+
+        private void PlaceDecoration(Quaternion rotation,
+            KeyValuePair<Vector3Int, Direction> freeSpot,
+            ref Dictionary<Vector3Int, Direction> freeEstateSpots,
+            ref List<Vector3Int> blockedPositions)
+        {
+            var halfSize = Mathf.CeilToInt(1 / 2.0f);
+            var tempPositionsBlocked = new List<Vector3Int>();
+            if (!VerifyIfBuildingFits(halfSize, freeEstateSpots, freeSpot, blockedPositions,
+                ref tempPositionsBlocked)) return;
+            
+            blockedPositions.AddRange(tempPositionsBlocked);
+            var decoration =
+                SpawnDecoration(
+                    decorationPrefabs[randomGenerator.Next(0, decorationPrefabs.Length, false)],
+                    freeSpot.Key, rotation);
+            decorationsDictionary.Add(freeSpot.Key, decoration);
         }
 
         private static bool VerifyIfBuildingFits(int halfSize,
