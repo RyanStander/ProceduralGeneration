@@ -16,7 +16,9 @@ public class RandomGenerator : MonoBehaviour {
     [SerializeField] private int seed = 0;
 
     private System.Random rand;
-	   
+
+    #region Next
+
     /// <summary>
     /// Returns a random integer between 0 and maxValue-1 (inclusive).
     /// </summary>
@@ -25,11 +27,32 @@ public class RandomGenerator : MonoBehaviour {
     }
     
     /// <summary>
-    /// Returns a random integer between 0 and maxValue-1 (inclusive).
+    /// Returns a random integer between given min and max value (inclusive).
     /// </summary>
-    public int IntBetweenRangeInclusive(int startValue,int endValue) {
-        return Rand.Next(startValue,endValue+1);
+    public int Next(int startValue,int endValue, bool isInclusive=true)
+    {
+        return isInclusive ? Rand.Next(startValue,endValue+1) : Rand.Next(startValue, endValue);
     }
+    
+    /// <summary>
+    /// Returns a random integer between 0 and 1.
+    /// </summary>
+    public int Next() {
+        return Rand.Next();
+    }
+
+    #endregion
+
+    #region Next Double
+
+    /// <summary>
+    /// Returns a random double between 0 and 1.
+    /// </summary>
+    public double NextDouble() {
+        return Rand.NextDouble();
+    }
+
+    #endregion
 
     public System.Random Rand {
         get {

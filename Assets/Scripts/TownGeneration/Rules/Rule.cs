@@ -10,12 +10,11 @@ namespace TownGeneration.Rules
         [SerializeField] private string[] results;
         [SerializeField] private bool randomResult;
 
-        public string GetResult()
+        public string GetResult(RandomGenerator randomGenerator)
         {
             if (!randomResult) return results[0];
             
-            var randomValues = new Random();
-            var randomIndex = randomValues.Next(0, results.Length);
+            var randomIndex = randomGenerator.Next(0, results.Length,false);
             return results[randomIndex];
         }
     }

@@ -1288,7 +1288,7 @@ MonoBehaviour:
   lsystem: {fileID: 172212075}
   roadHelper: {fileID: 172212074}
   structureHelper: {fileID: 172212076}
-  roadLength: 8
+  roadLength: 12
 --- !u!4 &172212073
 Transform:
   m_ObjectHideFlags: 0
@@ -1335,9 +1335,10 @@ MonoBehaviour:
   rules:
   - {fileID: 11400000, guid: 541d40e195d2d8e42988fb51b0b5ab0c, type: 2}
   rootSentence: '[F]--F'
-  iterationLimit: 3
+  iterationLimit: 5
   randomIgnoreRuleModifier: 1
   chanceToIgnoreRule: 0.4
+  randomGenerator: {fileID: 172212077}
 --- !u!114 &172212076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1351,10 +1352,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   randomGenerator: {fileID: 172212077}
+  decorationPrefabs:
+  - {fileID: 919132149155446097, guid: 083a6e082372cd840964c58a99056e2b, type: 3}
+  - {fileID: 919132149155446097, guid: 6819b11c37fcfa144a14bd918a796c74, type: 3}
+  - {fileID: 919132149155446097, guid: 8538cff99cfca45479736f21e50f64ac, type: 3}
+  - {fileID: 919132149155446097, guid: 167bedab66a3491469221ba44d0cf5c4, type: 3}
+  - {fileID: 919132149155446097, guid: 6c6e8130e07b94a4ab351d766ca9eb7c, type: 3}
+  - {fileID: 919132149155446097, guid: 9cc5268199370c14182fc21598557ef4, type: 3}
+  - {fileID: 919132149155446097, guid: 18346cca15306144cb471d623378709f, type: 3}
+  - {fileID: 919132149155446097, guid: fb1770715af48244aa0f6b21c09c9738, type: 3}
+  - {fileID: 919132149155446097, guid: 60259fedc35887a45a7dd048b0d7db3a, type: 3}
+  - {fileID: 919132149155446097, guid: 8e99b3ab75c3cf845a2f9dd6ac6c6e56, type: 3}
+  - {fileID: 919132149155446097, guid: 7ab0c121d4cd8c34c9112f5e5f9c4dd2, type: 3}
+  - {fileID: 919132149155446097, guid: 788f01ddb770212409af1235d8be1c27, type: 3}
+  randomDecorationsPlacement: 1
+  randomDecorationsPlacementThreshold: 0.3
   buildingTypes:
   - prefabs:
     - {fileID: 5355659964953515236, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
-    sizeRequired: 5
+    sizeRequired: 11
+    quantity: 1
+    quantityAlreadyPlaced: 0
+    wallWidthRange: {x: 5, y: 5}
+    wallLengthRange: {x: 8, y: 8}
+    wallHeightRange: {x: 8, y: 8}
+    maxDoorsRange: {x: 1, y: 2}
+    doorSpawnChance: 0.5
+    maxWindowsRange: {x: 40, y: 40}
+    windowSpawnChance: 0.3
+  - prefabs:
+    - {fileID: 5355659964953515236, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+    sizeRequired: 9
+    quantity: 3
+    quantityAlreadyPlaced: 0
+    wallWidthRange: {x: 3, y: 5}
+    wallLengthRange: {x: 5, y: 8}
+    wallHeightRange: {x: 3, y: 5}
+    maxDoorsRange: {x: 1, y: 2}
+    doorSpawnChance: 0.5
+    maxWindowsRange: {x: 20, y: 40}
+    windowSpawnChance: 0.3
+  - prefabs:
+    - {fileID: 5355659964953515236, guid: 9f9aa247d257e7d459125c3118d057b2, type: 3}
+    sizeRequired: 7
     quantity: -1
     quantityAlreadyPlaced: 0
     wallWidthRange: {x: 2, y: 3}
@@ -6524,7 +6564,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1768812320
 Transform:
   m_ObjectHideFlags: 0
@@ -7207,7 +7247,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6a6608058f76322499cff782755b60e3, type: 2}
+  - {fileID: -4231637370832951941, guid: c998d648a8701f94c9c9275e41063b21, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7246,7 +7286,7 @@ Transform:
   m_GameObject: {fileID: 1862237479}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 1, z: 10}
+  m_LocalScale: {x: 100, y: 1, z: 100}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5

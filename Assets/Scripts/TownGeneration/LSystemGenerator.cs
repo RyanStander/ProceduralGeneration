@@ -1,8 +1,6 @@
-using System;
 using System.Text;
 using UnityEngine;
 using TownGeneration.Rules;
-using Random = System.Random;
 
 namespace TownGeneration
 {
@@ -15,7 +13,7 @@ namespace TownGeneration
         public bool randomIgnoreRuleModifier = true;
         [Range(0, 1)] public float chanceToIgnoreRule = 0.4f;
 
-        private Random randomValues = new Random();
+        [SerializeField]private RandomGenerator randomGenerator;
         private void Start()
         {
             Debug.Log(GenerateSentence());
@@ -61,12 +59,12 @@ namespace TownGeneration
                 
                 if (randomIgnoreRuleModifier && iterationIndex>1)
                 {
-                    if (randomValues.NextDouble()<chanceToIgnoreRule)
+                    if (randomGenerator.NextDouble()<chanceToIgnoreRule)
                     {
                         return;
                     }
                 }
-                newWord.Append(GrowRecursive(rule.GetResult(), iterationIndex + 1));
+                newWord.Append(GrowRecursive(rule.GetResult(randomGenerator), iterationIndex + 1));
             }
         }
     }
